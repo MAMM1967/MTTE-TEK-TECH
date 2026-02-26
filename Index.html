@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Eficiencia Mitsubishi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hero-gradient { background: linear-gradient(135deg, #003a8c 0%, #001d4d 100%); }
+        .ai-panel { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 1px solid #bbf7d0; }
+        .font-fix { font-variant-ligatures: none; }
+        .img-container { min-height: 120px; display: flex; align-items: center; justify-content: center; background: white; }
+    </style>
+</head>
+<body class="bg-slate-100 font-sans leading-relaxed text-slate-800 p-4">
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div id="simulador-container" class="max-w-3xl mx-auto bg-white overflow-hidden rounded-xl border border-slate-200 shadow-xl font-fix">
+        
+        <!-- ENCABEZADO -->
+        <div class="hero-gradient text-white py-12 px-10 relative">
+            <div class="absolute top-4 right-4 sm:top-6 sm:right-6">
+                <!-- Logo Mitsubishi: Ahora con extensión .png -->
+                <img src="MTTE Logo 300 dpi.png" alt="Mitsubishi Logo" class="w-32 sm:w-48 h-auto object-contain block">
+            </div>
+
+            <div class="mt-20 mb-6 w-full flex justify-center">
+                <div class="bg-red-600 text-white px-5 py-2.5 font-bold tracking-widest text-sm rounded uppercase shadow-lg text-center inline-block">
+                    Alerta: la última milla destruye la cadena de frío
+                </div>
+            </div>
+
+            <div class="text-center">
+                <h1 class="text-xl md:text-2xl font-bold leading-tight mb-2">
+                    Durante el reparto frigorífico de última milla no se respetan las temperaturas requeridas.
+                </h1>
+                <h2 class="text-2xl md:text-3xl font-black text-red-500 italic underline decoration-red-600/30 underline-offset-4">
+                    "Solo la tecnología de MITSUBISHI mantiene la temperatura para que su producto llegue fresco"
+                </h2>
+            </div>
+        </div>
+
+        <div class="p-8">
+            <div class="mb-8 text-center max-w-2xl mx-auto">
+                <p class="mb-6 text-slate-600 text-lg">
+                    En el reparto urbano, el motor rara vez alcanza las revoluciones necesarias para un equipo convencional.
+                </p>
+
+                <div class="bg-blue-50 border border-blue-100 p-4 rounded-xl mb-6 text-left border-l-4 border-blue-600">
+                    <p class="text-[11px] text-slate-700 leading-snug">
+                        <strong>💡 Dato Clave:</strong> Al ralentí, el compresor gira a menos vueltas y pierde un 40% de su capacidad. Nuestros equipos no dependen de las revoluciones del motor y dan el 100% de su potencia al ralentí o incluso con el motor apagado.
+                    </p>
+                </div>
+
+                <strong class="text-blue-800 font-bold block text-xl">
+                    Nuestra tecnología asegura la potencia frigorífica necesaria independientemente de las revoluciones.
+                </strong>
+            </div>
+
+            <!-- SIMULADOR INTERACTIVO -->
+            <div class="ai-panel p-6 rounded-xl shadow-inner border border-green-200 mb-8">
+                <h3 class="text-green-800 font-bold mb-4 flex items-center text-lg uppercase tracking-tight">📊 Simulador de Impacto Ambiental</h3>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <div>
+                        <label class="text-[10px] font-bold text-green-800 uppercase block mb-1">Nº Vehículos</label>
+                        <input id="numVehiculos" type="number" value="10" oninput="calcular()" class="w-full p-2 border border-green-200 rounded text-sm outline-none focus:ring-2 focus:ring-green-500 bg-white/70 font-bold">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-green-800 uppercase block mb-1">Km Anuales</label>
+                        <input id="kmAnuales" type="number" value="40000" oninput="calcular()" class="w-full p-2 border border-green-200 rounded text-sm outline-none focus:ring-2 focus:ring-green-500 bg-white/70 font-bold">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-green-800 uppercase block mb-1">Paradas/día</label>
+                        <input id="paradasDia" type="number" value="20" oninput="calcular()" class="w-full p-2 border border-green-200 rounded text-sm outline-none focus:ring-2 focus:ring-green-500 bg-white/70 font-bold">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-green-800 uppercase block mb-1">Min/parada</label>
+                        <input id="tiempoParada" type="number" value="15" oninput="calcular()" class="w-full p-2 border border-green-200 rounded text-sm outline-none focus:ring-2 focus:ring-green-500 bg-white/70 font-bold">
+                    </div>
+                </div>
+
+                <div class="p-4 bg-white rounded-lg shadow-xl border-2 border-green-600">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center">
+                        <div class="flex flex-col justify-center bg-green-50 p-3 rounded">
+                            <span class="text-[9px] font-bold text-green-900 uppercase mb-1 text-center">Ahorro Diésel Anual</span>
+                            <span id="resDiesel" class="text-base sm:text-lg font-black text-blue-700 leading-none">⛽ 0 L</span>
+                        </div>
+                        <div class="flex flex-col justify-center bg-green-50 p-3 rounded">
+                            <span class="text-[9px] font-bold text-green-900 uppercase mb-1 text-center">CO₂ Reducido Anual</span>
+                            <span id="resCO2" class="text-base sm:text-lg font-black text-green-700 leading-none">☁️ 0 Tn</span>
+                        </div>
+                        <div class="flex flex-col justify-center bg-green-100 p-3 rounded overflow-hidden">
+                            <span class="text-[9px] font-bold text-green-900 uppercase mb-1 text-center">Equivalente a plantar</span>
+                            <span id="resBosque" class="text-xs sm:text-base font-black text-green-800 leading-tight">🌳 0 Arboles/año</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IMÁGENES INFERIORES: Ahora con extensión .png -->
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div class="img-container rounded-lg border shadow-sm">
+                    <img src="foto_unidad.png" alt="Unidad Mitsubishi" class="max-h-32 object-contain w-full">
+                </div>
+                <div class="img-container rounded-lg border shadow-sm">
+                    <img src="tecnologia_tek.png" alt="Tecnología Mitsubishi" class="max-h-32 object-contain w-full">
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-slate-200 p-6 text-center text-[10px] text-slate-500 border-t uppercase tracking-wide">
+            <p class="font-bold text-slate-700">MITSUBISHI HEAVY INDUSTRIES THERMAL TRANSPORT EUROPE</p>
+        </div>
+    </div>
+
+    <script>
+        function calcular() {
+            const v = parseFloat(document.getElementById('numVehiculos').value) || 0;
+            const k = parseFloat(document.getElementById('kmAnuales').value) || 0;
+            const p = parseFloat(document.getElementById('paradasDia').value) || 0;
+            const t = parseFloat(document.getElementById('tiempoParada').value) || 0;
+            
+            const ahorroAnualParadas = ((p * t) / 60) * 250 * 1.2 * v;
+            const ahorroRuta = ((k / 100) * 11.5 * v) * 0.05;
+            const total = ahorroAnualParadas + ahorroRuta;
+            const co2 = (total * 2.68) / 1000;
+            const arboles = Math.floor((total * 2.68) / 22);
+
+            document.getElementById('resDiesel').innerText = '⛽ ' + Math.floor(total).toLocaleString() + ' L';
+            document.getElementById('resCO2').innerText = '☁️ ' + co2.toFixed(1) + ' Tn';
+            document.getElementById('resBosque').innerText = '🌳 ' + arboles.toLocaleString() + ' Arboles/año';
+        }
+
+        window.onload = calcular;
+    </script>
+</body>
+</html>
